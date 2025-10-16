@@ -1,14 +1,14 @@
 aside.notification {
     position: fixed;
     top: 15px;
-    right: 5px;
+    right: 15px;
     height: calc(100vh - 30px);
     z-index: 8;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 240px;
-    padding-inline: 15px 5px;
+    width: 250px;
+    
     overflow: hidden;
 }
 
