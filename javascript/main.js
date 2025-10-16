@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const allSections = document.querySelectorAll('main section');
     const MAX_ROTATION = 15;
+    const fadeDuration = 300;
 
     const applyPerspectiveRotation = (clientX, clientY) => {
         const viewportWidth = window.innerWidth;
@@ -27,11 +28,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resetRotation = () => {
         allSections.forEach(section => {
+            section.style.transition = 'transform 0.5s ease-out';
             section.style.transform = 'rotateX(0deg) rotateY(0deg)';
         });
+        setTimeout(() => {
+            allSections.forEach(section => {
+                section.style.transition = 'none';
+            });
+        }, 500);
     };
     
     document.body.addEventListener('mousemove', (e) => {
+        allSections.forEach(section => section.style.transition = 'none');
         applyPerspectiveRotation(e.clientX, e.clientY);
     });
 
@@ -39,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.body.addEventListener('touchmove', (e) => {
         if (e.touches.length > 0) {
+            allSections.forEach(section => section.style.transition = 'none');
             applyPerspectiveRotation(e.touches[0].clientX, e.touches[0].clientY);
         }
     }, { passive: true }); 
@@ -46,10 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('touchend', resetRotation);
     document.body.addEventListener('touchcancel', resetRotation); 
     
-    const fadeDuration = 300; 
-    
     const navigateToSection = (targetSelector) => {
-        
         if (!targetSelector || targetSelector === '#' || $(targetSelector).length === 0) {
             return;
         }
@@ -89,5 +95,4 @@ document.addEventListener('DOMContentLoaded', () => {
         const hash = window.location.hash || defaultHash;
         navigateToSection(hash);
     });
-    
 });
