@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let activeLinkBeforeSearch = null;
     let currentActiveLink = null;
+    
+    const scrollOffset = 60;
 
     const header = sidemenu ? sidemenu.querySelector('section.header') : null;
     const body = sidemenu ? sidemenu.querySelector('section.body') : null;
@@ -56,7 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setActiveLink(linkToActivate) {
-        removeActiveClass();
+        if (linkToActivate && (linkToActivate.getAttribute('href') && linkToActivate.getAttribute('href').startsWith('#') || !linkToActivate.dataset.href)) {
+             removeActiveClass();
+        } else {
+            return;
+        }
+
 
         linkToActivate.classList.add('active');
         currentActiveLink = linkToActivate;
@@ -100,16 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeAside = document.querySelectorAll('aside a:not([data-href="false"])');
     closeAside.forEach(link => {
         link.addEventListener('click', (event) => {
-            event.preventDefault();
-            
-            const toggleIcon = toggleButton.querySelector('i');
-            sidemenu.classList.toggle('toggle');
-            
-            if (toggleIcon) {
-                if (sidemenu.classList.contains('toggle')) {
-                    toggleIcon.classList.remove('bi-list');
-                    toggleIcon.classList.add('bi-x');
-                } else {
+            const href = link.getAttribute('href');
+            if (!href || href === '' || !href.startsWith('#')) {
+                const toggleIcon = toggleButton.querySelector('i');
+                sidemenu.classList.remove('toggle'); 
+                
+                if (toggleIcon) {
                     toggleIcon.classList.remove('bi-x');
                     toggleIcon.classList.add('bi-list');
                 }
@@ -154,7 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             s.closeSubmenu();
                         }
                     });
-                    if (!searchInput.value.trim()) {
+                    
+                    if (searchInput.value.trim()) {
                         removeActiveClass();
                     }
                 }
@@ -163,20 +167,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (state.isSubmenuLockedOpen) {
                         state.isSubmenuLockedOpen = false;
                         state.closeSubmenu();
-                        menuLink.classList.remove('active');
                         menuContainer.classList.remove('active');
                     } else {
                         state.isSubmenuLockedOpen = true;
-                        if (!menuLink.closest('.submenu')) {
-                            setActiveLink(menuLink);
-                        }
+                        state.openSubmenu();
                     }
                 } else {
                     state.isSubmenuLockedOpen = true;
                     state.openSubmenu();
-                    if (!menuLink.closest('.submenu')) {
-                        setActiveLink(menuLink);
-                    }
                 }
             });
 
@@ -185,14 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const activeLinkInsideThisSubmenu = submenu.querySelector('a.active');
                     if (!activeLinkInsideThisSubmenu) {
                         state.closeSubmenu();
-                        menuLink.classList.remove('active');
                         menuContainer.classList.remove('active');
                     }
                 }
             });
 
         } else {
-            console.error('Erro: Elements ".link" or ".submenu" were not found.');
+            // console.error('Erro: Elements ".link" or ".submenu" were not found.');
         }
     });
 
@@ -276,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const mainLinkOfMenu = menuItem.querySelector('a.link');
                         if (mainLinkOfMenu) {
-                            if ((linkTextElement && linkTextElement.textContent.toLowerCase().includes(searchTerm)) || mainLinkWasActiveBeforeSearch) {
+                            if ((linkTextElement && linkTextElement.textContent.toLowerCase().includes(searchTerm))) {
                                 mainLinkOfMenu.classList.add('active');
                             } else {
                                 mainLinkOfMenu.classList.remove('active');
@@ -314,27 +311,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    allMenuLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            if (link.dataset.href === 'false' && !link.closest('.submenu')) {
-                event.preventDefault();
-            } else if (!link.dataset.href || (link.closest('.submenu') && (!link.getAttribute('href') || link.getAttribute('href') === '' || link.getAttribute('href').startsWith('#')))) {
-                if (link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
-                    event.preventDefault();
-                    window.location.hash = link.getAttribute('href');
-                } else if (link.getAttribute('href') === '') {
-                    event.preventDefault();
-                }
-
-                menuStates.forEach(s => {
-                    if (s.menuContainer !== link.closest('.menu')) {
-                        s.isSubmenuLockedOpen = false;
-                        s.closeSubmenu();
-                    }
-                });
-
-                setActiveLink(link);
-
+    function activateLinkFromHash(hash) {
+        if (!hash) return;
+        
+        allMenuLinks.forEach(link => {
+            if (link.getAttribute('href') === hash) {
+                removeActiveClass();
+                link.classList.add('active');
                 activeLinkBeforeSearch = link;
 
                 const parentMenuContainer = link.closest('.menu');
@@ -345,6 +328,70 @@ document.addEventListener('DOMContentLoaded', () => {
                         parentMenuState.isSubmenuLockedOpen = true;
                     }
                 }
+            }
+        });
+    }
+
+    allMenuLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            const href = link.getAttribute('href');
+            const isAnchorLink = href && href.startsWith('#') && href.length > 1;
+            const isNonAnchorLink = !href || href === '' || !href.startsWith('#');
+
+            if (link.dataset.href === 'false' && !link.closest('.submenu')) {
+                event.preventDefault();
+                return; 
+            } else if (!link.dataset.href || isAnchorLink || (link.closest('.submenu') && isNonAnchorLink)) {
+                
+                if (isAnchorLink) {
+                    event.preventDefault(); 
+                    
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - scrollOffset,
+                            behavior: 'smooth'
+                        });
+                        
+                        history.pushState(null, null, href); 
+                        
+                        activateLinkFromHash(href);
+
+                        if (sidemenu.classList.contains('toggle')) {
+                            const toggleIcon = toggleButton.querySelector('i');
+                            sidemenu.classList.remove('toggle');
+                            if (toggleIcon) {
+                                toggleIcon.classList.remove('bi-x');
+                                toggleIcon.classList.add('bi-list');
+                            }
+                        }
+                    }
+                } else if (href === '') {
+                    event.preventDefault();
+                }
+
+                if (!link.dataset.href) {
+                     menuStates.forEach(s => {
+                        if (s.menuContainer !== link.closest('.menu')) {
+                            s.isSubmenuLockedOpen = false;
+                            s.closeSubmenu();
+                        }
+                    });
+
+                    setActiveLink(link);
+
+                    activeLinkBeforeSearch = link;
+
+                    const parentMenuContainer = link.closest('.menu');
+                    if (parentMenuContainer) {
+                        const parentMenuState = menuStates.get(parentMenuContainer);
+                        if (parentMenuState) {
+                            parentMenuState.openSubmenu();
+                            parentMenuState.isSubmenuLockedOpen = true;
+                        }
+                    }
+                }
+                
                 if (searchInput) {
                     searchInput.value = '';
                     searchInput.dispatchEvent(new Event('input'));
@@ -353,25 +400,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const currentPath = window.location.hash;
+    window.addEventListener('scroll', () => {
+        const currentHash = window.location.hash;
+        const scrollPosition = window.scrollY + scrollOffset + 1;
 
-    if (currentPath) {
-        let foundActiveLink = false;
+        if (window.scrollY === 0 && !currentHash) {
+            return;
+        }
+
+        let linkToActivate = null;
+        let bestMatch = null;
+
         allMenuLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
-                setActiveLink(link);
-                activeLinkBeforeSearch = link;
-                foundActiveLink = true;
-
-                const parentMenuContainer = link.closest('.menu');
-                if (parentMenuContainer) {
-                    const parentMenuState = menuStates.get(parentMenuContainer);
-                    if (parentMenuState) {
-                        parentMenuState.openSubmenu();
-                        parentMenuState.isSubmenuLockedOpen = true;
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#') && href.length > 1) {
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    const targetTop = targetElement.offsetTop;
+                    if (scrollPosition >= targetTop) {
+                        bestMatch = link;
                     }
                 }
             }
         });
+
+        if (bestMatch && bestMatch.getAttribute('href') !== currentHash) {
+            history.replaceState(null, null, bestMatch.getAttribute('href'));
+            activateLinkFromHash(bestMatch.getAttribute('href'));
+        } else if (currentHash && !bestMatch) {
+            activateLinkFromHash(currentHash);
+        } else if (bestMatch && bestMatch.getAttribute('href') === currentHash) {
+            activateLinkFromHash(currentHash);
+        }
+    });
+
+    const currentPath = window.location.hash;
+
+    if (currentPath) {
+       activateLinkFromHash(currentPath);
+
+        const targetElement = document.querySelector(currentPath);
+        if (targetElement) {
+             window.scrollTo({
+                top: targetElement.offsetTop - scrollOffset,
+                behavior: 'smooth'
+            });
+        }
     }
 });
