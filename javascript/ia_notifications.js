@@ -21,7 +21,7 @@ function sendRandomNotification() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    createNotification('Bem vindo(a)!', 'Seja bem vindo(a) ao meu portfólio. Espero que goste!', 5);
+    createNotification('Daniel Mazzeu', 'Seja bem vindo(a) ao meu portfólio. Espero que goste!', 5);
     setTimeout(sendRandomNotification, 10000); 
     setInterval(sendRandomNotification, 60000); 
 });
