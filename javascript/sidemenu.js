@@ -111,15 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 1. Lógica de fechamento para links normais/externos (corrigida)
     const closeAside = document.querySelectorAll('aside a:not([data-href="false"])');
     closeAside.forEach(link => {
         link.addEventListener('click', (event) => {
             const href = link.getAttribute('href');
 
-            if (!href || href === '' || !href.startsWith('#')) {
-                if (sidemenu.classList.contains('toggle')) {
-                    sidemenu.classList.remove('toggle');
-                    window.updateToggleIcon(false);
+            // Verifica se a tela é menor ou igual ao desktopBreakpoint (mobile/tablet)
+            if (window.innerWidth <= desktopBreakpoint) { 
+                // Se o link NÃO for âncora e NÃO for data-href="false"
+                if (!href || href === '' || !href.startsWith('#')) {
+                    if (sidemenu.classList.contains('toggle')) {
+                        sidemenu.classList.remove('toggle');
+                        window.updateToggleIcon(false);
+                    }
                 }
             }
         });
@@ -344,9 +349,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         history.pushState(null, null, href); 
                         
-                        if (sidemenu.classList.contains('toggle')) {
-                            sidemenu.classList.remove('toggle');
-                            window.updateToggleIcon(false);
+                        // 2. Lógica de fechamento para links âncora (corrigida)
+                        // Fecha APENAS se a tela for mobile/tablet
+                        if (window.innerWidth <= desktopBreakpoint) { 
+                            if (sidemenu.classList.contains('toggle')) {
+                                sidemenu.classList.remove('toggle');
+                                window.updateToggleIcon(false);
+                            }
                         }
                     }
                 } else if (href === '') {
