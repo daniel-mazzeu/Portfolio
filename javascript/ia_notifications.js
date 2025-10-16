@@ -1,7 +1,7 @@
 import { createNotification } from './notifications.js';
 
 const messages = [
-    'Seja bem vindo(a) ao meu portfólio. Espero que goste!',
+    "Seja bem vindo(a) ao meu portfólio. Espero que goste!",
     "Dica Dev: A melhor forma de aprender é começando um projeto novo.",
     "Que bom ter você por aqui!.",
     "O desenvolvimento front-end é uma das minhas paixões.",
@@ -14,14 +14,31 @@ const messages = [
     "Estou sempre inovando. Volte em breve para ver as novidades!",
 ];
 
-function sendRandomNotification() {
-    const randomIndex = Math.floor(Math.random() * messages.length);
-    const currentMessage = messages[randomIndex];
+let availableMessages = [...messages]; 
 
-    createNotification('Daniel Mazzeu', currentMessage, 10);
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+shuffleArray(availableMessages);
+
+function sendRandomNotification() {
+    if (availableMessages.length === 0) {
+        availableMessages = [...messages];
+        shuffleArray(availableMessages);
+    }
+
+    const currentMessage = availableMessages.pop();
+
+    if (currentMessage) {
+        createNotification('Daniel Mazzeu', currentMessage, 10);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(sendRandomNotification, 10000); 
-    setInterval(sendRandomNotification, 120000); 
+    setInterval(sendRandomNotification, 60000); 
 });
