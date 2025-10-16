@@ -1,0 +1,121 @@
+aside.notification {
+    position: fixed;
+    top: 15px;
+    right: 5px;
+    height: calc(100vh - 30px);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 240px;
+    padding-inline: 15px 5px;
+    overflow: hidden;
+}
+
+aside.notification > .notification-adjustment {
+    height: 100%;
+}
+
+aside.notification > div.notification-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: #111;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    flex-shrink: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+}
+
+aside.notification > div.notification-content.add {
+    animation: notification-slidein 0.3s ease-out forwards;
+    pointer-events: auto;
+}
+
+aside.notification > div.notification-content.remove {
+    animation: notification-slideout 0.5s ease-in forwards;
+    pointer-events: none;
+}
+
+aside.notification > div.notification-content.trash {
+    animation: notification-trash 0.5s ease-in forwards;
+    pointer-events: none;
+}
+
+@keyframes notification-slidein {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes notification-slideout {
+    0% { transform: translateX(0); }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes notification-trash {
+    0% { transform: translateX(0); }
+    15% { transform: translateX(-5px) rotate(-1deg); }
+    30% { transform: translateX(5px) rotate(1deg); }
+    45% { transform: translateX(-5px) rotate(-1deg); }
+    60% { transform: translateX(0); }
+    100% {
+        transform: translateX(100%) scale(0.5) rotate(15deg);
+        opacity: 0;
+    }
+}
+
+aside.notification > div.notification-content > button {
+    position: absolute;
+    top: 17px;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 15px;
+    line-height: 15px;
+    color: #777;
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+aside.notification > div.notification-content > button:hover {
+    color: #fff;
+}
+
+aside.notification > div.notification-content > h1 {
+    max-width: 90%;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+aside.notification > div.notification-content > p {
+    font-size: 12px;
+    color: #999;
+}
+
+aside.notification > div.notification-content > small {
+    font-size: 10px;
+    color: #777;
+}
+
+aside.notification > div.notification-content > div.progressbar {
+    width: 100%;
+    height: 5px;
+    border-radius: 10px;
+    background-color: #222;
+}
+
+aside.notification > div.notification-content > div.progressbar > div.percentage {
+    width: 0%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #777;
+}
