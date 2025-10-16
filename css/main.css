@@ -53,10 +53,7 @@ main > section > div.avatar::before {
     bottom: -5px;
     width: calc(100% + 10px); 
     height: calc(100% + 10px);
-    
-    /* VALOR INICIAL DO BORDA-RADIUS PARA O EFEITO */
-    border-radius: 40% 60% 70% 30% / 50% 60% 30% 70%;
-    
+    border-radius: 40% 60% 70% 20% / 50% 60% 30% 70%;
     background: conic-gradient(
         #000 0%,
         #999 30%,
