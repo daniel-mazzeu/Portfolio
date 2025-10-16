@@ -64,7 +64,7 @@ function createNotification(title, text, durationInSeconds) {
         progressBarPercentage.style.width = `${percentageWidth}%`;
 
         const remainingSeconds = durationInSeconds - elapsedSeconds;
-        countdownText.textContent = `${remainingSeconds} seconds remaining...`;
+        countdownText.textContent = `${remainingSeconds} segundos restantes...`;
 
         if (elapsedSeconds > durationInSeconds) {
             clearInterval(intervalId);
