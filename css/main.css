@@ -149,3 +149,28 @@ main > section > div.main-stars {
     font-size: 20px;
     text-shadow: 1px 1px 1px #fff;
 }
+
+@media (max-width: 700px) {
+    main > section > div.avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    main > section > div.avatar::before {
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        width: calc(100% + 10px); 
+        height: calc(100% + 10px);
+    }
+
+    main > section {
+        padding: 30px 20px;
+        gap: 20px;
+    }
+    
+    main > section > h1 {
+        font-size: 32px;
+    }
+}
