@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeLinkBeforeSearch = null;
     let currentActiveLink = null;
     
+    // Altura do cabeçalho / espaçamento superior para melhor visualização ao rolar
     const scrollOffset = 60;
 
     const header = sidemenu ? sidemenu.querySelector('section.header') : null;
@@ -58,12 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setActiveLink(linkToActivate) {
-        if (linkToActivate && (linkToActivate.getAttribute('href') && linkToActivate.getAttribute('href').startsWith('#') || !linkToActivate.dataset.href)) {
-             removeActiveClass();
-        } else {
-            return;
-        }
-
+        removeActiveClass();
 
         linkToActivate.classList.add('active');
         currentActiveLink = linkToActivate;
@@ -100,9 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ignoredSidemenuLinks = document.querySelectorAll('aside a[data-href="false"]');
     ignoredSidemenuLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-            // Este bloco garante que NENHUM link com data-href="false" navegue.
-            event.preventDefault(); 
-            event.stopPropagation(); // Garante que o evento não propague.
+            event.preventDefault();
         });
     });
 
@@ -149,11 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
             menuContainer.addEventListener('mouseenter', state.openSubmenu);
             menuContainer.addEventListener('mouseleave', state.closeSubmenu);
 
-            // CORREÇÃO: Adicionei event.stopPropagation() aqui.
             menuLink.addEventListener('click', (event) => {
-                event.preventDefault(); // Previne a navegação padrão.
-                event.stopPropagation(); // **IMPEDE** que o clique vá para outro listener e cause navegação.
+                event.preventDefault();
 
+                // CORREÇÃO: removeActiveClass() só é chamado se houver um termo de busca, 
+                // evitando limpar o link ativo ao clicar em um link pai.
                 if (menuLink.dataset.href === 'false') {
                     menuStates.forEach(s => {
                         if (s !== state && s.isSubmenuLockedOpen) {
@@ -171,14 +165,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (state.isSubmenuLockedOpen) {
                         state.isSubmenuLockedOpen = false;
                         state.closeSubmenu();
+                        menuLink.classList.remove('active');
                         menuContainer.classList.remove('active');
                     } else {
                         state.isSubmenuLockedOpen = true;
-                        state.openSubmenu();
+                        if (!menuLink.closest('.submenu')) {
+                            setActiveLink(menuLink);
+                        }
                     }
                 } else {
                     state.isSubmenuLockedOpen = true;
                     state.openSubmenu();
+                    if (!menuLink.closest('.submenu')) {
+                        setActiveLink(menuLink);
+                    }
                 }
             });
 
@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const activeLinkInsideThisSubmenu = submenu.querySelector('a.active');
                     if (!activeLinkInsideThisSubmenu) {
                         state.closeSubmenu();
+                        menuLink.classList.remove('active');
                         menuContainer.classList.remove('active');
                     }
                 }
@@ -277,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const mainLinkOfMenu = menuItem.querySelector('a.link');
                         if (mainLinkOfMenu) {
-                            if ((linkTextElement && linkTextElement.textContent.toLowerCase().includes(searchTerm))) {
+                            if ((linkTextElement && linkTextElement.textContent.toLowerCase().includes(searchTerm)) || mainLinkWasActiveBeforeSearch) {
                                 mainLinkOfMenu.classList.add('active');
                             } else {
                                 mainLinkOfMenu.classList.remove('active');
@@ -315,46 +316,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function activateLinkFromHash(hash) {
-        if (!hash) return;
-        
-        allMenuLinks.forEach(link => {
-            if (link.getAttribute('href') === hash) {
-                removeActiveClass();
-                link.classList.add('active');
-                activeLinkBeforeSearch = link;
-
-                const parentMenuContainer = link.closest('.menu');
-                if (parentMenuContainer) {
-                    const parentMenuState = menuStates.get(parentMenuContainer);
-                    if (parentMenuState) {
-                        parentMenuState.openSubmenu();
-                        parentMenuState.isSubmenuLockedOpen = true;
-                    }
-                }
-            }
-        });
-    }
-
     allMenuLinks.forEach(link => {
         link.addEventListener('click', (event) => {
             const href = link.getAttribute('href');
             const isAnchorLink = href && href.startsWith('#') && href.length > 1;
-            const isNonAnchorLink = !href || href === '' || !href.startsWith('#');
-            
-            // NOVO: Verifique se é um link principal que contém um submenu
-            const isParentMenuWithSubmenu = link.closest('.menu') && link.closest('.menu').querySelector('.submenu') && link.classList.contains('link');
 
-            // Esta é a verificação mais crítica. Se for um link de expansão, bloqueie e saia.
-            if ((link.dataset.href === 'false' && !link.closest('.submenu')) || isParentMenuWithSubmenu) {
+            if (link.dataset.href === 'false' && !link.closest('.submenu')) {
                 event.preventDefault();
-                event.stopPropagation(); // Garante que o evento pare aqui.
-                return; 
-            } 
-            
-            // O restante da lógica só é executada se NÃO for um link de expansão
-            if (!link.dataset.href || isAnchorLink || (link.closest('.submenu') && isNonAnchorLink)) {
+            } else if (!link.dataset.href || isAnchorLink || (link.closest('.submenu') && (!href || href === ''))) {
                 
+                // 1. Rolagem suave para links de âncora (Corrigindo o erro de rolagem instantânea)
                 if (isAnchorLink) {
                     event.preventDefault(); 
                     
@@ -367,8 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         history.pushState(null, null, href); 
                         
-                        activateLinkFromHash(href);
-
+                        // Fecha o menu lateral após a rolagem
                         if (sidemenu.classList.contains('toggle')) {
                             const toggleIcon = toggleButton.querySelector('i');
                             sidemenu.classList.remove('toggle');
@@ -382,28 +352,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     event.preventDefault();
                 }
 
-                if (!link.dataset.href) {
-                     menuStates.forEach(s => {
-                        if (s.menuContainer !== link.closest('.menu')) {
-                            s.isSubmenuLockedOpen = false;
-                            s.closeSubmenu();
-                        }
-                    });
+                // 2. Lógica de ativação e estado do submenu
+                menuStates.forEach(s => {
+                    if (s.menuContainer !== link.closest('.menu')) {
+                        s.isSubmenuLockedOpen = false;
+                        s.closeSubmenu();
+                    }
+                });
 
-                    setActiveLink(link);
+                setActiveLink(link);
 
-                    activeLinkBeforeSearch = link;
+                activeLinkBeforeSearch = link;
 
-                    const parentMenuContainer = link.closest('.menu');
-                    if (parentMenuContainer) {
-                        const parentMenuState = menuStates.get(parentMenuContainer);
-                        if (parentMenuState) {
-                            parentMenuState.openSubmenu();
-                            parentMenuState.isSubmenuLockedOpen = true;
-                        }
+                const parentMenuContainer = link.closest('.menu');
+                if (parentMenuContainer) {
+                    const parentMenuState = menuStates.get(parentMenuContainer);
+                    if (parentMenuState) {
+                        parentMenuState.openSubmenu();
+                        parentMenuState.isSubmenuLockedOpen = true;
                     }
                 }
                 
+                // 3. Limpa a busca
                 if (searchInput) {
                     searchInput.value = '';
                     searchInput.dispatchEvent(new Event('input'));
@@ -412,45 +382,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    window.addEventListener('scroll', () => {
-        const currentHash = window.location.hash;
-        const scrollPosition = window.scrollY + scrollOffset + 1;
+    const currentPath = window.location.hash;
 
-        if (window.scrollY === 0 && !currentHash) {
-            return;
-        }
-
-        let linkToActivate = null;
-        let bestMatch = null;
-
+    if (currentPath) {
+        let foundActiveLink = false;
         allMenuLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#') && href.length > 1) {
-                const targetElement = document.querySelector(href);
-                if (targetElement) {
-                    const targetTop = targetElement.offsetTop;
-                    if (scrollPosition >= targetTop) {
-                        bestMatch = link;
+            if (link.getAttribute('href') === currentPath) {
+                setActiveLink(link);
+                activeLinkBeforeSearch = link;
+                foundActiveLink = true;
+
+                const parentMenuContainer = link.closest('.menu');
+                if (parentMenuContainer) {
+                    const parentMenuState = menuStates.get(parentMenuContainer);
+                    if (parentMenuState) {
+                        parentMenuState.openSubmenu();
+                        parentMenuState.isSubmenuLockedOpen = true;
                     }
                 }
             }
         });
 
-        if (bestMatch && bestMatch.getAttribute('href') !== currentHash) {
-            history.replaceState(null, null, bestMatch.getAttribute('href'));
-            activateLinkFromHash(bestMatch.getAttribute('href'));
-        } else if (currentHash && !bestMatch) {
-            activateLinkFromHash(currentHash);
-        } else if (bestMatch && bestMatch.getAttribute('href') === currentHash) {
-            activateLinkFromHash(currentHash);
-        }
-    });
-
-    const currentPath = window.location.hash;
-
-    if (currentPath) {
-       activateLinkFromHash(currentPath);
-
+        // Força a rolagem suave para o hash inicial
         const targetElement = document.querySelector(currentPath);
         if (targetElement) {
              window.scrollTo({
