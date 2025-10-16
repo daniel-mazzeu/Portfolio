@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeLinkBeforeSearch = null;
     let currentActiveLink = null;
     
-    // Altura do cabeçalho / espaçamento superior para melhor visualização ao rolar
     const scrollOffset = 60;
 
     const header = sidemenu ? sidemenu.querySelector('section.header') : null;
@@ -140,14 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             menuStates.set(menuContainer, state);
 
-            menuContainer.addEventListener('mouseenter', state.openSubmenu);
-            menuContainer.addEventListener('mouseleave', state.closeSubmenu);
+            // REMOVIDO: Eventos mouseenter/mouseleave para remover o "efeito devagar" (hover)
+            // menuContainer.addEventListener('mouseenter', state.openSubmenu);
+            // menuContainer.addEventListener('mouseleave', state.closeSubmenu);
 
             menuLink.addEventListener('click', (event) => {
                 event.preventDefault();
 
-                // CORREÇÃO: removeActiveClass() só é chamado se houver um termo de busca, 
-                // evitando limpar o link ativo ao clicar em um link pai.
                 if (menuLink.dataset.href === 'false') {
                     menuStates.forEach(s => {
                         if (s !== state && s.isSubmenuLockedOpen) {
@@ -325,7 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
             } else if (!link.dataset.href || isAnchorLink || (link.closest('.submenu') && (!href || href === ''))) {
                 
-                // 1. Rolagem suave para links de âncora (Corrigindo o erro de rolagem instantânea)
                 if (isAnchorLink) {
                     event.preventDefault(); 
                     
@@ -338,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         history.pushState(null, null, href); 
                         
-                        // Fecha o menu lateral após a rolagem
                         if (sidemenu.classList.contains('toggle')) {
                             const toggleIcon = toggleButton.querySelector('i');
                             sidemenu.classList.remove('toggle');
@@ -352,7 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     event.preventDefault();
                 }
 
-                // 2. Lógica de ativação e estado do submenu
                 menuStates.forEach(s => {
                     if (s.menuContainer !== link.closest('.menu')) {
                         s.isSubmenuLockedOpen = false;
@@ -373,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 
-                // 3. Limpa a busca
                 if (searchInput) {
                     searchInput.value = '';
                     searchInput.dispatchEvent(new Event('input'));
@@ -403,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Força a rolagem suave para o hash inicial
         const targetElement = document.querySelector(currentPath);
         if (targetElement) {
              window.scrollTo({
