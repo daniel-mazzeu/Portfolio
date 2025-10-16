@@ -1,6 +1,7 @@
 import { createNotification } from './notifications.js';
 
 const messages = [
+    'Seja bem vindo(a) ao meu portfólio. Espero que goste!',
     "Dica Dev: A melhor forma de aprender é começando um projeto novo.",
     "Que bom ter você por aqui!.",
     "O desenvolvimento front-end é uma das minhas paixões.",
