@@ -96,6 +96,7 @@ aside.sidemenu > section.header > div.header-info > img {
     height: 50px;
     object-fit: cover;
     border-radius: 10px;
+    filter: grayscale(100%);
 }
 
 aside.sidemenu > section.header > div.header-info > div {
