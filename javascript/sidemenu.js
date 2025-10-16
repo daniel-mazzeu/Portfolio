@@ -98,6 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const isMenuOpen = sidemenu.classList.contains('toggle');
             updateToggleIcon(isMenuOpen);
         });
+
+        window.updateToggleIcon = updateToggleIcon;
     } else {
         console.error('Erro: Elements "sidemenu" or "sidemenu-toggle" were not found.');
     }
@@ -115,8 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = link.getAttribute('href');
 
             if (!href || href === '' || !href.startsWith('#')) {
-                sidemenu.classList.remove('toggle');
-                updateToggleIcon(false);
+                if (sidemenu.classList.contains('toggle')) {
+                    sidemenu.classList.remove('toggle');
+                    window.updateToggleIcon(false);
+                }
             }
         });
     });
@@ -342,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         if (sidemenu.classList.contains('toggle')) {
                             sidemenu.classList.remove('toggle');
-                            updateToggleIcon(false);
+                            window.updateToggleIcon(false);
                         }
                     }
                 } else if (href === '') {
