@@ -3,7 +3,7 @@ aside.notification {
     top: 15px;
     right: 5px;
     height: calc(100vh - 30px);
-    z-index: 200;
+    z-index: 8;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -13,7 +13,7 @@ aside.notification {
 }
 
 aside.notification > .notification-adjustment {
-    height: 100%;
+    height: 0%;
 }
 
 aside.notification > div.notification-content {
