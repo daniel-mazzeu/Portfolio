@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const playlist = [
         {
+            artist: "East Capri",
+            title: "Undone",
+            audioSrc: "songs/East Capri - Undone.mp3"
+        },
+        {
             artist: "Sleep Token",
             title: "Caramel",
             audioSrc: "songs/Sleep Token - Caramel.mp3"
@@ -280,10 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePlayerVisibility();
     });
 
-    const randomTrackIndex = Math.floor(Math.random() * playlist.length);
-    
-    currentTrackIndex = randomTrackIndex; 
-    
+    currentTrackIndex = 0;
     loadTrack(currentTrackIndex);
 
     musicPlayerDiv.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out, padding-top 0.3s ease-out, padding-left 0.1s linear, padding-right 0.1s linear, bottom 0.3s ease-out';
