@@ -1,0 +1,243 @@
+aside.sidemenu {
+    position: fixed;
+    top: 15px;
+    left: -250px;
+    bottom: 15px;
+    z-index: 100;
+    width: 250px;
+    border-radius: 15px 0 15px 15px;
+    background-color: #111;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: left 0.3s ease-in-out;
+}
+
+aside.toggle { left: 15px; }
+
+aside.sidemenu *::-webkit-scrollbar { width: 7px; }
+aside.sidemenu *::-webkit-scrollbar-track,
+aside.sidemenu *::-webkit-scrollbar-thumb { border-radius: 5px; }
+aside.sidemenu *::-webkit-scrollbar-track { background: transparent; }
+aside.sidemenu *::-webkit-scrollbar-thumb { background: #444; }
+aside.sidemenu *::-webkit-scrollbar-thumb:hover { background: #fff; }
+
+aside.sidemenu > button {
+    position: absolute;
+    top: 0;
+    left: calc(100% - 1px);
+    z-index: 100;
+    padding: 10px 15px 10px 10px;
+    border: 0;
+    border-radius: 0 15px 15px 0;
+    cursor: pointer;
+    background-color: #111;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+aside.sidemenu > button > i {
+    font-size: 22px;
+    color: #777;
+}
+
+aside.sidemenu > button:hover > i {
+    color: #fff;
+}
+
+aside.sidemenu > section.header,
+aside.sidemenu > section.footer {
+    position: absolute;
+    z-index: 1;
+    background-color: #111;
+}
+
+aside.sidemenu > section.header,
+aside.sidemenu > section.body,
+aside.sidemenu > section.footer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 15px;
+}
+
+aside.sidemenu > section.header {
+    top: 0;
+    gap: 15px;
+    border-bottom: 1px solid #222;
+    border-radius: 15px 15px 0 0;
+}
+
+aside.sidemenu > section.body {
+    position: relative;
+    gap: 5px;
+    margin-top: 130px;
+    margin-bottom: 120px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+aside.sidemenu > section.footer {
+    max-height: 400px;
+    bottom: 0;
+    gap: 5px;
+    border-top: 1px solid #222;
+    border-radius: 0 0 15px 15px;
+    overflow-y: auto;
+}
+
+aside.sidemenu > section.header > div.header-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 15px;
+    font-size: 12px;
+}
+
+aside.sidemenu > section.header > div.header-info > img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+aside.sidemenu > section.header > div.header-info > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+}
+
+aside.sidemenu > section.header > div.header-info > div > h1 {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+aside.sidemenu > section.header > div.header-info > div > p {
+    font-size: 12px;
+    color: #777;
+}
+
+aside.sidemenu > section.header > div.header-search {
+    position: relative;
+    width: 100%;
+}
+
+aside.sidemenu > section.header > div.header-search > i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    font-size: 15px;
+    line-height: 15px;
+    color: #777;
+}
+
+aside.sidemenu > section.header > div.header-search > input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #222;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 12px;
+    color: #fff;
+    background-color: #222;
+}
+
+aside.sidemenu > section.header > div.header-search:hover > i,
+aside.sidemenu > section.header > div.header-search > input:focus ~ i {
+    color: #fff;
+}
+
+aside.sidemenu > section:not(.header) > div.menu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+aside.sidemenu > section:not(.header) > div.menu > a.link {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 12px;
+    color: #777;
+    text-decoration: none;
+}
+
+aside.sidemenu > section:not(.header) > div.menu:hover > a.link,
+aside.sidemenu > section:not(.header) > div.menu.active > a.link {
+    color: #fff;
+    background-color: #222;
+}
+
+aside.sidemenu > section:not(.header) > div.menu > a.link > p {
+    width: 100%;
+    padding: 0 15px;
+}
+
+aside.sidemenu > section:not(.header) > div.menu > a.link > span {
+    padding: 5px 10px;
+    margin: -5px 0;
+    color: #777;
+    border-radius: 10px;
+    border: 1px solid #222;
+    background-color: #111;
+}
+
+aside.sidemenu > section:not(.header) > div.menu:hover > a.link > span,
+aside.sidemenu > section:not(.header) > div.menu.active > a.link > span {
+    color: #fff;
+}
+
+aside.sidemenu > section:not(.header) > div.menu > a.link > i:last-child {
+    font-size: 12px;
+    line-height: 12px;
+    transition: transform 0.3s ease-in-out;
+}
+
+aside.sidemenu > section:not(.header) > div.menu.active > a.link > i:last-child {
+    transform: rotate(180deg);
+}
+
+aside.sidemenu > section:not(.header) > div.menu > div.submenu {
+    display: none;
+    position: relative;
+    max-height: 100px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #222;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+aside.sidemenu > section:not(.header) > div.menu.active > div.submenu {
+    display: flex;
+    opacity: 1;
+    max-height: max-content;
+}
+
+aside.sidemenu > section:not(.header) > div.menu > div.submenu > a:not(:last-child) {
+    border-bottom: 1px solid #111;
+}
+
+aside.sidemenu > section:not(.header) > div.menu > div.submenu > a {
+    width: 100%;
+    font-size: 12px;
+    line-height: 12px;
+    color: #777;
+    padding: 10px;
+    text-decoration: none;
+}
+
+aside.sidemenu > section:not(.header) > div.menu > div.submenu > a:hover,
+aside.sidemenu > section:not(.header) > div.menu > div.submenu > a:active,
+aside.sidemenu > section:not(.header) > div.menu > div.submenu > a.active {
+    color: #fff;
+}

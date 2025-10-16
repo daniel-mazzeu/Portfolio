@@ -1,0 +1,202 @@
+.musicplayer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    z-index: 50;
+    transform: translateX(-50%);
+}
+
+.musicplayer > button {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: 0;
+    border-radius: 15px;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #111;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.musicplayer > button:hover {
+    background-color: #222;
+}
+
+.musicplayer-base {
+    position: relative;
+    padding: 0;
+    border-width: 0 7px;
+    border-style: solid;
+    border-color: #111;
+    border-radius: 15px;
+    transition: padding-left 0.1s ease-out, padding-right 0.1s ease-out;
+    overflow: hidden;
+    background-color: #111;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.musicplayer-base.minimized {
+    border-width: 0;
+}
+
+.musicplayer-base > button.musicplayer-open {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #111;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.musicplayer-base > div.musicplayer-effect {
+    position: absolute;
+    top: -150%;
+    left: -50%;
+    width: 200%;
+    height: 400%;
+    background-color: #111;
+    background-size: 100% 100%;
+    filter: blur(50px);
+    animation: musicplayerRotateConic 3s linear infinite;
+}
+
+.musicplayer-base > div.musicplayer-effect.active {
+    background: conic-gradient(from 0deg at 50% 50%,
+        #ff6b6b,
+        #ee609c,
+        #a060ed,
+        #60a0ee,
+        #60edad,
+        #eed660,
+        #ff6b6b
+    );
+}
+
+.musicplayer-base > div.musicplayer-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #111;
+    padding: 25px;
+    border-radius: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.musicplayer-base > div.musicplayer-container > div.musicplayer-info,
+.musicplayer-base > div.musicplayer-container > div.musicplayer-progressbar,
+.musicplayer-base > div.musicplayer-container > div.musicplayer-control {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-info {
+    position: relative;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    max-width: 265px;
+    margin-bottom: 15px;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-info > h1 {
+    width: calc(100% - 60px);
+    font-size: 15px;
+    line-height: 1;
+    color: #fff;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-info > p {
+    width: calc(100% - 60px);
+    font-size: 12px;
+    color: #777;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-info > button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border: 0;
+    border-radius: 15px;
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-info > button:hover {
+    background-color: #222;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-progressbar {
+    justify-content: flex-start;
+    height: 5px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #222;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-progressbar > div.percentage {
+    width: 0;
+    height: 100%;
+    border-radius: 15px;
+    background-color: #fff;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-control > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: 1px solid #222;
+    border-radius: 15px;
+    font-size: 20px;
+    color: #777;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-control > i:hover,
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-control > i:active,
+div.musicplayer-base > div.musicplayer-container > div.musicplayer-control > i.active {
+    color: #fff;
+    background-color: #222;
+}
+
+@keyframes musicplayerRotateConic {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <!-- Metatags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="description" content="...">
+        <meta name="keywords" content="...">
+        <meta name="author" content="Daniel Mazzeu">
+        <meta name="robots" content="index, follow">
+
+        <!-- Social Metatags -->
+        <meta property="og:title" content="...">
+        <meta property="og:description" content="...">
+        <meta property="og:image" content="...">
+        <meta property="og:url" content="...">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="...">
+        <meta property="og:locale" content="pt_BR">
+
+        <!-- X Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="...">
+        <meta name="twitter:description" content="...">
+        <meta name="twitter:image" content="...">
+        <meta name="twitter:site" content="...">
+        
+        <!-- Favicon -->
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon" title="...">
+
+        <!-- Title -->
+        <title>...</title>
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/sidemenu.css">
+        <link rel="stylesheet" href="css/musicplayer.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <!-- Scripts -->
+        <script defer src="javascript/jquery.js"></script>
+        <script defer src="javascript/sidemenu.js"></script>
+        <script defer src="javascript/musicplayer.js"></script>
+        <script defer src="javascript/main.js"></script>
+    </head>
+    <body>
+
+        <!-- Aside -->
+        <aside class="sidemenu">
+            <button type="button" class="sidemenu-toggle"><i class="bi bi-list"></i></button>
+            <section class="header">
+                <div class="header-info">
+                    <img src="images/avatar.jpg" alt="User Profile Picture">
+                    <div>
+                        <h1>Daniel Mazzeu</h1>
+                        <p>Inovando sempre.</p>
+                    </div>
+                </div>
+                <div class="header-search">              
+                    <input type="text" placeholder="Search" maxlength="100">
+                    <i class="bi bi-search"></i>
+                </div>
+            </section>
+            <section class="body">
+                <div class="menu">
+                    <a class="link" href="#about">
+                        <i class="bi bi-person-fill"></i>
+                        <p>Sobre</p>
+                    </a>
+                </div>
+                <div class="menu">
+                    <a class="link" href="#" data-href="false">
+                        <i class="bi bi-journal-bookmark"></i>
+                        <p>Conhecimentos</p>
+                        <i class="bi bi-chevron-double-down"></i>
+                    </a>
+                    <div class="submenu">
+                        <a href="#html">HTML</a>
+                        <a href="#css">CSS</a>
+                        <a href="#javascript">Javascript</a>
+                        <a href="#typescript">Typescript</a>
+                        <a href="#php">PHP</a>
+                        <a href="#python">Python</a>
+                        <a href="#nodejs">NodeJs</a>
+                        <a href="#sql">SQL</a>
+                    </div>
+                </div>
+                <div class="menu">
+                    <a class="link" href="#" data-href="false">
+                        <i class="bi bi-box-seam"></i>
+                        <p>Frameworks</p>
+                        <i class="bi bi-chevron-double-down"></i>
+                    </a>
+                    <div class="submenu">
+                        <a href="#react">React</a>
+                        <a href="#reactnative">React Native</a>
+                        <a href="#flutter">Flutter</a>
+                        <a href="#angular">Angular</a>
+                    </div>
+                </div>
+                <div class="menu">
+                    <a class="link" href="#" data-href="false">
+                        <i class="bi bi-database"></i>
+                        <p>Databases</p>
+                        <i class="bi bi-chevron-double-down"></i>
+                    </a>
+                    <div class="submenu">
+                        <a href="#mysql">MySQL</a>
+                        <a href="#sqlserver">SQLServer</a>
+                        <a href="#firebase">Firebase</a>
+                    </div>
+                </div>
+                <div class="menu">
+                    <a class="link" href="#" data-href="false">
+                        <i class="bi bi-chat-dots-fill"></i>
+                        <p>Idiomas</p>
+                        <i class="bi bi-chevron-double-down"></i>
+                    </a>
+                    <div class="submenu">
+                        <a href="#english">Inglês</a>
+                        <a href="#spanish">Espanhol</a>
+                    </div>
+                </div>
+            </section>
+            <section class="footer">
+                <div class="menu">
+                    <a class="link" href="#" data-href="false">
+                        <i class="bi bi-gear-fill"></i>
+                        <p>Outros</p>
+                        <i class="bi bi-chevron-double-down"></i>
+                    </a>
+                    <div class="submenu">
+                        <a href="#social">Redes Sociais</a>
+                        <a href="#dania">DAN-IA</a>
+                    </div>
+                </div>
+                <div class="menu">
+                    <a class="link" href="#logout">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <p>L009</p>
+                    </a>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Music Player -->
+        <div class="musicplayer">
+            <button type="button"><i class="bi bi-music-note-beamed"></i></button>
+            <div class="musicplayer-base">
+                <div class="musicplayer-effect"></div>
+                <div class="musicplayer-container">
+                    <div class="musicplayer-info">
+                        <h1>Artist</h1>
+                        <p>Music name</p>
+                        <button type="button"><i class="bi bi-x"></i></button>
+                    </div>
+                    <div class="musicplayer-progressbar">
+                        <div class="percentage"></div>
+                    </div>
+                    <div class="musicplayer-control">
+                        <i class="bi bi-repeat" title="Repetir"></i>
+                        <i class="bi bi-skip-backward-fill" title="Anterior"></i>
+                        <i class="bi bi-play-circle-fill" title="Tocar/Pausar"></i>
+                        <i class="bi bi-skip-forward-fill" title="Próxima"></i>
+                        <i class="bi bi-shuffle" title="Embaralhar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <main>
+            <div class="spacer"></div>
+
+            <section id="about">
+                <h1>Sobre</h1>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passage</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            
+            <section id="html">
+                <h1>HTML</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>O HTML (HyperText Markup Language) é a espinha dorsal de qualquer página web. É a linguagem de marcação padrão usada para criar e estruturar o conteúdo de uma página, como títulos, parágrafos, listas e links.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="css">
+                <h1>CSS</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>CSS (Cascading Style Sheets) é usado para estilizar elementos escritos em uma linguagem de marcação como HTML. O CSS separa o conteúdo da apresentação, incluindo layout, cores e fontes, tornando o design da web muito mais eficiente.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="javascript">
+                <h1>Javascript</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>JavaScript é uma linguagem de programação de alto nível, interpretada e geralmente usada no desenvolvimento web para criar interatividade, manipular o DOM e permitir funcionalidades dinâmicas em páginas estáticas.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="typescript">
+                <h1>Typescript</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>TypeScript é um superset sintático do JavaScript que adiciona tipagem estática opcional. Isso melhora a robustez do código e facilita o desenvolvimento de grandes aplicações.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="php">
+                <h1>PHP</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>PHP (Hypertext Preprocessor) é uma linguagem de script de código aberto, amplamente utilizada para desenvolvimento web do lado do servidor (backend), especialmente em conjunto com sistemas de gerenciamento de banco de dados.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="python">
+                <h1>Python</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Python é uma linguagem de programação de propósito geral, conhecida por sua sintaxe clara e legibilidade. É popular em desenvolvimento web, ciência de dados, aprendizado de máquina e automação.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="nodejs">
+                <h1>NodeJs</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Node.js é um ambiente de execução JavaScript de código aberto e multiplataforma, que permite a execução de código JavaScript no lado do servidor, sendo ideal para aplicações escaláveis e em tempo real.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="sql">
+                <h1>SQL</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>SQL (Structured Query Language) é uma linguagem de domínio específico projetada para gerenciar dados mantidos em um sistema de gerenciamento de banco de dados relacional (SGBDR).</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+
+            <section id="react">
+                <h1>React</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>React é uma biblioteca JavaScript declarativa, eficiente e flexível para a criação de interfaces de usuário (UI) baseadas em componentes, mantida pelo Facebook.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="reactnative">
+                <h1>React Native</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>React Native permite que desenvolvedores construam aplicativos móveis nativos (iOS e Android) usando JavaScript e React, compartilhando grande parte do código entre plataformas.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="flutter">
+                <h1>Flutter</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Flutter é um kit de desenvolvimento de interface de usuário (UI) do Google para a criação de aplicações nativas, compiladas para web, desktop e dispositivos móveis a partir de uma única base de código.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="angular">
+                <h1>Angular</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Angular é um framework de desenvolvimento de aplicações web baseado em TypeScript, mantido pelo Google, que oferece uma solução completa para a construção de single-page applications (SPAs).</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+
+            <section id="mysql">
+                <h1>MySQL</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>MySQL é um sistema de gerenciamento de banco de dados relacional de código aberto, amplamente utilizado em aplicações web, oferecendo estabilidade e alto desempenho.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="sqlserver">
+                <h1>SQLServer</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>SQL Server é um sistema de gerenciamento de banco de dados relacional da Microsoft, frequentemente usado em ambientes corporativos para gerenciar grandes volumes de dados.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="firebase">
+                <h1>Firebase</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Firebase é uma plataforma de desenvolvimento de aplicativos móveis e web fornecida pelo Google. Inclui serviços de hospedagem, banco de dados NoSQL (Firestore/Realtime Database) e autenticação.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+
+            <section id="english">
+                <h1>Inglês</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>Proficiência avançada em Inglês, essencial para a leitura de documentações técnicas, participação em comunidades de desenvolvimento globais e comunicação profissional.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="spanish">
+                <h1>Espanhol</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Conhecimento em Espanhol, útil para comunicação e projetos em mercados hispânicos.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+
+            <section id="social">
+                <h1>Redes Sociais</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Aqui você pode encontrar os links e informações sobre as redes sociais, como GitHub, LinkedIn e outros canais de contato.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+            <section id="dania">
+                <h1>DAN-IA</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <p>DAN-IA é um projeto de Inteligência Artificial em desenvolvimento, focado em soluções de automação e aprendizado de máquina, utilizando Python.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+
+            <section id="logout">
+                <h1>L009</h1>
+                <div class="main-stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <p>Esta seção é reservada para a ação de logout/sair do sistema, ou pode ser um link para uma área restrita/painel de controle.</p>
+                <small>Atualizado 22/12/2025</small>
+            </section>
+
+            <div class="spacer"></div>
+        </main>
+
+    </body>
+</html>
