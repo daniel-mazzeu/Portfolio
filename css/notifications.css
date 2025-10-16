@@ -12,10 +12,6 @@ aside.notification {
     overflow: hidden;
 }
 
-aside.notification > .notification-adjustment {
-    height: 0%;
-}
-
 aside.notification > div.notification-content {
     position: relative;
     display: flex;
