@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const playlist = [
         {
+            artist: "Sleep Token",
+            title: "Caramel",
+            audioSrc: "songs/Sleep Token - Caramel.mp3"
+        },
+        {
             artist: "Nevertel & Sleep Theory",
             title: "Break The Silence",
             audioSrc: "songs/Nevertel & Sleep Theory - Break The Silence.mp3"
