@@ -89,10 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         checkInitialSidemenuState();
-        
-        // A LINHA ABAIXO FOI REMOVIDA PARA EVITAR QUE O TECLADO VIRTUAL DO MOBILE 
-        // FECHE O MENU DURANTE A PESQUISA (EVENTO 'RESIZE' DISPARADO)
-        // window.addEventListener('resize', checkInitialSidemenuState);
 
         toggleButton.addEventListener('click', () => {
             sidemenu.classList.toggle('toggle'); 
