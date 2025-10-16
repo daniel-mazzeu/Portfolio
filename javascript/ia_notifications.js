@@ -3,7 +3,7 @@ import { createNotification } from './notifications.js';
 const messages = [
     "Dica Dev: A melhor forma de aprender é começando um projeto novo.",
     "Que bom ter você por aqui!.",
-    "Não deixe de ver meus projetos em React! O desenvolvimento front-end é uma das minhas paixões.",
+    "O desenvolvimento front-end é uma das minhas paixões.",
     "Buscando um back-end robusto? Explore o conhecimento em PHP e SQLServer!",
     "Lembrete: O código limpo de hoje é o futuro fácil de amanhã. Continue explorando!",
     "Parabéns por buscar inovação!",
