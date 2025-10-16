@@ -27,7 +27,7 @@ html { scroll-behavior: smooth; }
 
 body { 
     height: 100vh;
-    background-color: #ccc; 
+    background-color: #fff; 
 }
 
 ::-webkit-scrollbar { width: 5px; }
