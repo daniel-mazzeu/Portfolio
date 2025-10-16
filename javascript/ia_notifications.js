@@ -17,7 +17,7 @@ function sendRandomNotification() {
     const randomIndex = Math.floor(Math.random() * messages.length);
     const currentMessage = messages[randomIndex];
 
-    createNotification('Daniel Mazzeu', currentMessage, 5);
+    createNotification('Daniel Mazzeu', currentMessage, 10);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
