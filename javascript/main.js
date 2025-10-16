@@ -1,140 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const allSections = document.querySelectorAll('main section');
-    const MAX_ROTATION = 15;
-    const MIN_SCREEN_WIDTH = 1000;
-    const fadeDuration = 300;
+    // A constante 'allSections' e as variáveis de efeito não são mais necessárias
+    const fadeDuration = 300; 
 
-    const shouldApplyEffect = () => {
-        return window.innerWidth >= MIN_SCREEN_WIDTH;
-    };
+    // A lógica 'shouldApplyEffect' e as funções de rotação/reset 'applyPerspectiveRotation', 'resetRotation' 
+    // e os listeners de 'mousemove', 'mouseleave', 'touchmove', 'touchend', 'touchcancel' e 'resize'
+    // foram removidos.
 
-    const applyPerspectiveRotation = (clientX, clientY) => {
-        if (!shouldApplyEffect()) {
-            return;
-        }
-
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-
-        const centerX = viewportWidth / 2;
-        const centerY = viewportHeight / 2;
-
-        const mouseX = clientX - centerX;
-        const mouseY = clientY - centerY;
-
-        const normalizeX = mouseX / centerX;
-        const normalizeY = mouseY / centerY;
-        
-        const rotationX = normalizeY * MAX_ROTATION * -1; 
-        const rotationY = normalizeX * MAX_ROTATION; 
-        
-        const transformValue = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-
-        allSections.forEach(section => {
-            section.style.transform = transformValue;
-        });
-    };
-
-    const resetRotation = () => {
-        if (!shouldApplyEffect()) {
-             allSections.forEach(section => {
-                 section.style.transition = 'none';
-                 section.style.transform = 'rotateX(0deg) rotateY(0deg)';
-             });
-             return;
-        }
-        
-        allSections.forEach(section => {
-            section.style.transition = 'transform 0.5s ease-out';
-            section.style.transform = 'rotateX(0deg) rotateY(0deg)';
-        });
-        setTimeout(() => {
-            allSections.forEach(section => {
-                section.style.transition = 'none';
-            });
-        }, 500);
-    };
-
-    document.body.addEventListener('mousemove', (e) => {
-        if (!shouldApplyEffect()) return;
-        
-        allSections.forEach(section => section.style.transition = 'none');
-        applyPerspectiveRotation(e.clientX, e.clientY);
-    });
-
-    document.body.addEventListener('mouseleave', () => {
-        if (!shouldApplyEffect()) return;
-        resetRotation();
-    });
-    
-    document.body.addEventListener('touchmove', (e) => {
-        if (!shouldApplyEffect()) return;
-        
-        if (e.touches.length > 0) {
-            allSections.forEach(section => section.style.transition = 'none');
-            applyPerspectiveRotation(e.touches[0].clientX, e.touches[0].clientY);
-        }
-    }, { passive: true }); 
-    
-    document.body.addEventListener('touchend', () => {
-        if (!shouldApplyEffect()) return;
-        resetRotation();
-    });
-    
-    document.body.addEventListener('touchcancel', () => {
-        if (!shouldApplyEffect()) return;
-        resetRotation();
-    }); 
-
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            if (!shouldApplyEffect()) {
-                allSections.forEach(section => {
-                    section.style.transition = 'none';
-                    section.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                });
-            }
-        }, 200);
-    });
-
+    // A função de navegação é mantida, pois é a lógica principal restante.
     const navigateToSection = (targetSelector) => {
+        // Verifica se o seletor é válido e existe. (Preserva jQuery para a lógica de navegação existente)
         if (!targetSelector || targetSelector === '#' || $(targetSelector).length === 0) {
             return;
         }
         
+        // Se a seção já está visível, apenas atualiza o histórico sem animação.
         if ($(targetSelector).is(':visible')) {
             history.pushState(null, '', targetSelector);
             return;
         }
         
+        // Oculta a seção visível atual com fade-out e mostra a nova com fade-in.
         $('main section:visible').fadeOut(fadeDuration, function() {
+            // Usa 'flex' para garantir que a seção apareça corretamente, já que o CSS original pode ter 'display: flex'.
             $(targetSelector).fadeIn(fadeDuration).css('display', 'flex');
             history.pushState(null, '', targetSelector);
         });
     };
     
+    // --- Lógica de Inicialização e Eventos de Navegação ---
+    
+    // Define o hash padrão (primeiro link da aside, ou '#about')
     let defaultHash = $('aside a[href^="#"]').first().attr('href') || '#about';
 
     const urlHash = window.location.hash;
     let initialSelector = defaultHash;
 
+    // Se houver um hash válido na URL, usa-o.
     if (urlHash && $(urlHash).length) {
         initialSelector = urlHash;
     }
     
+    // Oculta todas as seções e mostra a seção inicial.
     $('main section').hide(); 
-    $(initialSelector).show().css('display', 'flex');;
+    $(initialSelector).show().css('display', 'flex'); 
     
+    // Define o estado inicial do histórico.
     history.replaceState(null, '', initialSelector);
 
+    // Evento de clique para links na barra lateral (aside).
     $('aside a[href^="#"]').on('click', function(e) {
         e.preventDefault();
         const targetSelector = $(this).attr('href');
         navigateToSection(targetSelector);
     });
     
+    // Evento para navegação usando os botões 'voltar'/'avançar' do navegador.
     window.addEventListener('popstate', () => {
         const hash = window.location.hash || defaultHash;
         navigateToSection(hash);
