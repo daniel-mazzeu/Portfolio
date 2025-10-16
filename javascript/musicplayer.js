@@ -275,7 +275,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePlayerVisibility();
     });
 
-    currentTrackIndex = 0;
+    const randomTrackIndex = Math.floor(Math.random() * playlist.length);
+    
+    currentTrackIndex = randomTrackIndex; 
+    
     loadTrack(currentTrackIndex);
 
     musicPlayerDiv.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out, padding-top 0.3s ease-out, padding-left 0.1s linear, padding-right 0.1s linear, bottom 0.3s ease-out';
