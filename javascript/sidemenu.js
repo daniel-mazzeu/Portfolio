@@ -138,11 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             menuStates.set(menuContainer, state);
-
-            // REMOVIDO: Eventos mouseenter/mouseleave para remover o "efeito devagar" (hover)
-            // menuContainer.addEventListener('mouseenter', state.openSubmenu);
-            // menuContainer.addEventListener('mouseleave', state.closeSubmenu);
-
+            
             menuLink.addEventListener('click', (event) => {
                 event.preventDefault();
 
@@ -191,8 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-        } else {
-            // console.error('Erro: Elements ".link" or ".submenu" were not found.');
         }
     });
 
@@ -215,10 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (searchTerm === '') {
-                // Ao limpar a busca, exibe todos os itens
                 searchableMenuItems.forEach(menuItem => {
                     menuItem.style.display = 'flex';
-                    // Garante que todos os sublinks sejam reexibidos
                     menuItem.querySelectorAll('.submenu a').forEach(subLink => {
                         subLink.style.display = 'flex';
                     });
@@ -246,22 +238,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     let mainLinkWasActiveBeforeSearch = (activeLinkBeforeSearch && linkTextElement && linkTextElement.parentElement === activeLinkBeforeSearch);
 
-                    // 1. Verifica se o link principal corresponde
                     if (linkTextElement && linkTextElement.textContent.toLowerCase().includes(searchTerm)) {
                         matchesSearchTerm = true;
                     }
 
                     let anySublinkMatches = false;
                     
-                    // 2. Itera sobre os sublinks para verificar e controlar a visibilidade
                     submenuLinks.forEach(subLink => {
                         const subLinkWasActiveBeforeSearch = (activeLinkBeforeSearch === subLink);
 
                         if (subLink.textContent.toLowerCase().includes(searchTerm)) {
                             matchesSearchTerm = true;
                             anySublinkMatches = true;
-                            
-                            // MOSTRA o sublink que corresponde
+            
                             subLink.style.display = 'flex'; 
 
                             const parentMenuState = menuStates.get(menuItem);
@@ -276,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                             }
                         } else {
-                            // OCULTA o sublink que NÃO corresponde
                             subLink.style.display = 'none'; 
                             
                             if (subLink !== activeLinkBeforeSearch) {
@@ -285,14 +273,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
 
-                    // 3. Controla a visibilidade do item de menu principal (.menu)
                     if (matchesSearchTerm) {
-                        // Exibe o item de menu pai se houver correspondência
                         menuItem.style.display = 'flex';
 
                         const mainLinkOfMenu = menuItem.querySelector('a.link');
                         if (mainLinkOfMenu) {
-                            // Marca o link principal como ativo se ele corresponder ou estava ativo antes da busca
                             if ((linkTextElement && linkTextElement.textContent.toLowerCase().includes(searchTerm)) || mainLinkWasActiveBeforeSearch) {
                                 mainLinkOfMenu.classList.add('active');
                             } else {
