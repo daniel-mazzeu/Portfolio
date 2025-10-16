@@ -100,7 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const ignoredSidemenuLinks = document.querySelectorAll('aside a[data-href="false"]');
     ignoredSidemenuLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-            event.preventDefault();
+            // Este bloco garante que NENHUM link com data-href="false" navegue.
+            event.preventDefault(); 
+            event.stopPropagation(); // Garante que o evento não propague.
         });
     });
 
@@ -147,8 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
             menuContainer.addEventListener('mouseenter', state.openSubmenu);
             menuContainer.addEventListener('mouseleave', state.closeSubmenu);
 
+            // CORREÇÃO: Adicionei event.stopPropagation() aqui.
             menuLink.addEventListener('click', (event) => {
-                event.preventDefault();
+                event.preventDefault(); // Previne a navegação padrão.
+                event.stopPropagation(); // **IMPEDE** que o clique vá para outro listener e cause navegação.
 
                 if (menuLink.dataset.href === 'false') {
                     menuStates.forEach(s => {
@@ -337,11 +341,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = link.getAttribute('href');
             const isAnchorLink = href && href.startsWith('#') && href.length > 1;
             const isNonAnchorLink = !href || href === '' || !href.startsWith('#');
+            
+            // NOVO: Verifique se é um link principal que contém um submenu
+            const isParentMenuWithSubmenu = link.closest('.menu') && link.closest('.menu').querySelector('.submenu') && link.classList.contains('link');
 
-            if (link.dataset.href === 'false' && !link.closest('.submenu')) {
+            // Esta é a verificação mais crítica. Se for um link de expansão, bloqueie e saia.
+            if ((link.dataset.href === 'false' && !link.closest('.submenu')) || isParentMenuWithSubmenu) {
                 event.preventDefault();
+                event.stopPropagation(); // Garante que o evento pare aqui.
                 return; 
-            } else if (!link.dataset.href || isAnchorLink || (link.closest('.submenu') && isNonAnchorLink)) {
+            } 
+            
+            // O restante da lógica só é executada se NÃO for um link de expansão
+            if (!link.dataset.href || isAnchorLink || (link.closest('.submenu') && isNonAnchorLink)) {
                 
                 if (isAnchorLink) {
                     event.preventDefault(); 
