@@ -1,20 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sidemenu = document.querySelector('aside.sidemenu');
-    const toggleButton = document.querySelector('aside.sidemenu > button.sidemenu-toggle');
+    const toggleButton = document.querySelector('aside.sidemenu > button.sidemenu-toggle'); 
     const searchInput = document.querySelector('.header-search input');
 
+    const desktopBreakpoint = 1000; 
     const searchableMenuItems = document.querySelectorAll('aside.sidemenu > section.body > .menu');
     const footerMenuItems = document.querySelectorAll('aside.sidemenu > section.footer > .menu');
-
     const allMenuItems = document.querySelectorAll('aside.sidemenu > section.body > .menu, aside.sidemenu > section.footer > .menu');
     const allMenuLinks = document.querySelectorAll('.sidemenu .menu .link, .sidemenu .submenu a');
-
     const menuContainersWithSubmenu = document.querySelectorAll('aside.sidemenu > section.body > div.menu:has(.submenu), aside.sidemenu > section.footer > div.menu:has(.submenu)');
+    
     const menuStates = new Map();
-
     let activeLinkBeforeSearch = null;
     let currentActiveLink = null;
-    
     const scrollOffset = 60;
 
     const header = sidemenu ? sidemenu.querySelector('section.header') : null;
@@ -33,36 +31,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         setBodyHeight();
-
         window.addEventListener('resize', setBodyHeight);
-
         const observerConfig = { childList: true, subtree: true, attributes: true };
-
-        const headerObserver = new MutationObserver(setBodyHeight);
-        headerObserver.observe(header, observerConfig);
-
-        const footerObserver = new MutationObserver(setBodyHeight);
-        footerObserver.observe(footer, observerConfig);
-
+        new MutationObserver(setBodyHeight).observe(header, observerConfig);
+        new MutationObserver(setBodyHeight).observe(footer, observerConfig);
     } else {
         console.error('Erro: Sections "header", "body" or "footer" were not found.');
     }
 
     function removeActiveClass() {
-        allMenuLinks.forEach(link => {
-            link.classList.remove('active');
-        });
-        allMenuItems.forEach(menuItem => {
-            menuItem.classList.remove('active');
-        });
+        allMenuLinks.forEach(link => link.classList.remove('active'));
+        allMenuItems.forEach(menuItem => menuItem.classList.remove('active'));
     }
 
     function setActiveLink(linkToActivate) {
         removeActiveClass();
-
         linkToActivate.classList.add('active');
         currentActiveLink = linkToActivate;
-
         let currentElement = linkToActivate;
         while (currentElement) {
             if (currentElement.classList.contains('menu')) {
@@ -71,15 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
             currentElement = currentElement.parentElement;
         }
     }
-
+    
     if (sidemenu && toggleButton) {
         const toggleIcon = toggleButton.querySelector('i');
 
-        toggleButton.addEventListener('click', () => {
-            sidemenu.classList.toggle('toggle');
-
-            if (toggleIcon) {
-                if (sidemenu.classList.contains('toggle')) {
+        const updateToggleIcon = (isMenuOpen) => {
+             if (toggleIcon) {
+                if (isMenuOpen) {
                     toggleIcon.classList.remove('bi-list');
                     toggleIcon.classList.add('bi-x');
                 } else {
@@ -87,6 +70,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     toggleIcon.classList.add('bi-list');
                 }
             }
+        };
+
+        const checkInitialSidemenuState = () => {
+            const isDesktop = window.innerWidth > desktopBreakpoint;
+
+            if (isDesktop) {
+                if (!sidemenu.classList.contains('toggle')) {
+                    sidemenu.classList.add('toggle');
+                }
+                updateToggleIcon(true);
+            } else {
+                if (sidemenu.classList.contains('toggle')) {
+                    sidemenu.classList.remove('toggle');
+                }
+                updateToggleIcon(false);
+            }
+        };
+
+        checkInitialSidemenuState();
+
+        window.addEventListener('resize', checkInitialSidemenuState);
+
+        toggleButton.addEventListener('click', () => {
+            sidemenu.classList.toggle('toggle'); 
+    
+            const isMenuOpen = sidemenu.classList.contains('toggle');
+            updateToggleIcon(isMenuOpen);
         });
     } else {
         console.error('Erro: Elements "sidemenu" or "sidemenu-toggle" were not found.');
@@ -103,18 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
     closeAside.forEach(link => {
         link.addEventListener('click', (event) => {
             const href = link.getAttribute('href');
+
             if (!href || href === '' || !href.startsWith('#')) {
-                const toggleIcon = toggleButton.querySelector('i');
-                sidemenu.classList.remove('toggle'); 
-                
-                if (toggleIcon) {
-                    toggleIcon.classList.remove('bi-x');
-                    toggleIcon.classList.add('bi-list');
-                }
+                sidemenu.classList.remove('toggle');
+                updateToggleIcon(false);
             }
         });
     });
-
+    
     menuContainersWithSubmenu.forEach(menuContainer => {
         const menuLink = menuContainer.querySelector('a.link');
         const submenu = menuContainer.querySelector('.submenu');
@@ -242,15 +248,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         matchesSearchTerm = true;
                     }
 
-                    let anySublinkMatches = false;
-                    
                     submenuLinks.forEach(subLink => {
                         const subLinkWasActiveBeforeSearch = (activeLinkBeforeSearch === subLink);
 
                         if (subLink.textContent.toLowerCase().includes(searchTerm)) {
                             matchesSearchTerm = true;
-                            anySublinkMatches = true;
-            
+                            
                             subLink.style.display = 'flex'; 
 
                             const parentMenuState = menuStates.get(menuItem);
@@ -285,7 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
 
-                        // Reativa o link que estava ativo antes, se ele estiver contido neste menu
                         if (activeLinkBeforeSearch && menuItem.contains(activeLinkBeforeSearch)) {
                             activeLinkBeforeSearch.classList.add('active');
                             const parentMenuState = menuStates.get(activeLinkBeforeSearch.closest('.menu'));
@@ -296,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                     } else {
-                        // Oculta o item de menu pai se não houver correspondência
                         menuItem.style.display = 'none';
                         menuItem.classList.remove('active');
                         const mainLinkOfSubmenu = menuItem.querySelector('a.link[data-href="false"]');
@@ -340,12 +341,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         history.pushState(null, null, href); 
                         
                         if (sidemenu.classList.contains('toggle')) {
-                            const toggleIcon = toggleButton.querySelector('i');
                             sidemenu.classList.remove('toggle');
-                            if (toggleIcon) {
-                                toggleIcon.classList.remove('bi-x');
-                                toggleIcon.classList.add('bi-list');
-                            }
+                            updateToggleIcon(false);
                         }
                     }
                 } else if (href === '') {
@@ -360,7 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 setActiveLink(link);
-
                 activeLinkBeforeSearch = link;
 
                 const parentMenuContainer = link.closest('.menu');
@@ -374,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (searchInput) {
                     searchInput.value = '';
-                    // Dispara o evento de input para reverter a exibição normal do menu
                     searchInput.dispatchEvent(new Event('input')); 
                 }
             }
