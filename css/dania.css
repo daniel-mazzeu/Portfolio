@@ -44,7 +44,8 @@
     color: #777;
 }
 
-.dania > button.dania-toggle:hover {
+.dania > button.dania-toggle:hover,
+.dania > button.dania-toggle:hover > i {
     color: #fff;
 }
 
