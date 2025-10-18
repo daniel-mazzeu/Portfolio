@@ -8,7 +8,6 @@ aside.notification {
     flex-direction: column;
     gap: 5px;
     width: 250px;
-    
     overflow: hidden;
 }
 
