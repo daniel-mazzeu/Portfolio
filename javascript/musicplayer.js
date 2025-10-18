@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPlayerMinimized = true;
 
     const playlist = [
+		{
+            artist: "Dayseeker",
+            title: "Pale Moonlight",
+            audioSrc: "songs/Dayseeker - Pale Moonlight.mp3"
+        },
+        {
+            artist: "Sleep Theory",
+            title: "Stuck In My Head",
+            audioSrc: "songs/Sleep Theory - Stuck In My Head.mp3"
+        },
         {
             artist: "East Capri",
             title: "Undone",
@@ -51,11 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             artist: "I Prevail",
             title: "Rain",
             audioSrc: "songs/I Prevail - Rain.mp3"
-        },
-        {
-            artist: "Sleep Theory",
-            title: "Stuck In My Head",
-            audioSrc: "songs/Sleep Theory - Stuck In My Head.mp3"
         }
     ];
 
