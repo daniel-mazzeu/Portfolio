@@ -32,11 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Flood Light",
             audioSrc: "songs/I SEE STARS - Flood Light.mp3"
         },
-		{
-            artist: "Dayseeker",
-            title: "Pale Moonlight",
-            audioSrc: "songs/Dayseeker - Pale Moonlight.mp3"
-        },
         {
             artist: "Sleep Theory",
             title: "Stuck In My Head",
