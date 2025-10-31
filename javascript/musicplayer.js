@@ -33,6 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
             audioSrc: "songs/I SEE STARS - Flood Light.mp3"
         },
         {
+            artist: "I SEE STARS",
+            title: "Carry On For You",
+            audioSrc: "songs/I SEE STARS - carry on for you.mp3"
+        },
+        {
             artist: "Sleep Theory",
             title: "Stuck In My Head",
             audioSrc: "songs/Sleep Theory - Stuck In My Head.mp3"
